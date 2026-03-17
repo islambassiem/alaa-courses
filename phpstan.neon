@@ -1,0 +1,25 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+
+    # Level 10 is the highest level
+    level: max
+
+    # ignoring starter kit files
+    excludePaths:
+    - ./app/Livewire/Actions/Logout.php
+    - ./app/Livewire/Settings/TwoFactor/RecoveryCodes.php
+    - ./app/Livewire/Settings/DeleteUserForm.php
+    - ./app/Livewire/Settings/Profile.php
+    - ./app/Livewire/Settings/Security.php
+    - ./app/Providers/FortifyServiceProvider.php
+
+
+#    ignoreErrors:
+#        - '#PHPDoc tag @var#'
+#
