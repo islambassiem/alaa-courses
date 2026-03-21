@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\CourseStatus;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\User;
@@ -23,10 +22,10 @@ class EnrollmentFactory extends Factory
         return [
             'user_id' => fake()->randomElement(User::pluck('id')->toArray()),
             'course_id' => fake()->randomElement(Course::pluck('id')->toArray()),
-            'status' => fake()->randomElement(CourseStatus::cases())->value,
-            'enrolled_at' => fake()->dateTime(),
-            'completed_at' => fake()->dateTime(),
-            'progress_percentage' => fake()->numberBetween(0, 100), ,
+            'session_id' => fake()->lexify('?????????'),
+            'payment_intent' => fake()->lexify('?????????'),
+            'payment_status' => fake()->randomElement(['paid', 'failed']),
+            'amount_total' => fake()->numberBetween(10, 500) * 100,
         ];
     }
 }

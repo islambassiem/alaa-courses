@@ -17,10 +17,10 @@ class Enrollment extends Model
     protected $fillable = [
         'user_id',
         'course_id',
-        'status',
-        'enrolled_at',
-        'completed_at',
-        'progress_percentage',
+        'session_id',
+        'payment_intent',
+        'payment_status',
+        'amount_total',
     ];
 
     /**

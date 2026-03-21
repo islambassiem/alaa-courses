@@ -247,10 +247,13 @@
                     <flux:icon.arrow-right class="w-5 h-5" />
                 </flux:button>
             @else
-                <flux:button wire:click="enrollNow" variant="primary" icon:trailing="arrow-right"
+            <form action="{{ route('checkout', $course) }}" method="post">
+                @csrf
+                <flux:button type="submit" variant="primary" icon:trailing="arrow-right"
                     class="max-w-xs shadow-lg">
-                    Enroll Now
+                    {{ $authenticated ? 'Checkout' :'Enroll Now' }}
                 </flux:button>
+            </form>
             @endif
         </div>
     </div>

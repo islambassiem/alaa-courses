@@ -16,10 +16,13 @@ new #[Layout('layouts::home')] class extends Component
 
     public $isEnrolled = false;
 
+    public $authenticated;
+
     public function mount(Course $course)
     {
         $this->course = $course;
         $this->course->load(['reviews'])->loadCount('reviews');
+        $this->authenticated = Auth::check();
         $this->checkEnrollmentStatus();
     }
 
@@ -80,10 +83,5 @@ new #[Layout('layouts::home')] class extends Component
     public function toggleEnrollModal()
     {
         $this->showEnrollModal = ! $this->showEnrollModal;
-    }
-
-    public function enrollNow()
-    {
-        dd('TODO: User will prompted to pay and register for the course');
     }
 };

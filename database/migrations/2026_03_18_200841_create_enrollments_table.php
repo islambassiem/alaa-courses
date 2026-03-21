@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('course_id')->constrained()->onDelete('cascade');
-            $table->string('status')->default('enrolled');
-            $table->timestamp('enrolled_at')->useCurrent();
-            $table->timestamp('completed_at')->nullable();
-            $table->integer('progress_percentage')->default(0);
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('course_id')->constrained();
+            $table->string('session_id')->nullable();
+            $table->string('payment_intent')->nullable();
+            $table->string('payment_status')->nullable();
+            $table->integer('amount_total')->nullable();
             $table->timestamps();
 
             $table->unique(['user_id', 'course_id']);
