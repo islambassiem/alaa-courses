@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Events\UserEnrolled;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\User;
@@ -25,7 +26,7 @@ final readonly class EnrollmentAction
             'amount_total' => $session->amount_total ?? null,
         ]);
 
-        // dispatch an event
+        event(new \App\Events\UserEnrolled($course, $user));
 
         return $enrollment;
     }

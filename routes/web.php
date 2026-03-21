@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\CheckoutController;
+use App\Mail\UserEnrolled;
+use App\Models\Course;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::livewire('/', 'pages::welcome')->name('home');
@@ -15,3 +18,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 require __DIR__.'/settings.php';
 
 Route::livewire('/courses/{course}', 'pages::show')->name('courses.show');
+
+Route::get('mail', function () {
+    $user = User::find(2);
+    $course = Course::find(2);
+
+    return (new UserEnrolled($course, $user))->render();
+});
