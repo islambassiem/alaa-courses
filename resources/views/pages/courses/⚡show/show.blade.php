@@ -112,7 +112,7 @@
                                 @foreach (json_decode($course->objectives) as $objective)
                                     <div class="flex gap-3">
                                         <div
-                                            class="flex-shrink-0 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
+                                            class="shrink-0 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
                                             <flux:icon.check class="w-4 h-4 text-green-600" />
                                         </div>
                                         <p class="text-gray-700 flex-1">{{ $objective }}</p>
