@@ -11,7 +11,7 @@ new #[Layout('layouts::home')] class extends Component
 {
     public $searchQuery = '';
 
-    public $limit = 4;
+    public $limit = 6;
 
     public $selectedCategory = 'all';
 

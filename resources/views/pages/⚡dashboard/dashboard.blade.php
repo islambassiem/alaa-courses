@@ -1,10 +1,19 @@
-<div class="min-h-screen bg-gray-50 container mx-auto" x-data="{
+<div class="min-h-screen container mx-auto" x-data="{
     showFilters: false,
     scrolled: false
 }" x-init="window.addEventListener('scroll', () => {
     scrolled = window.scrollY > 20
 })">
-
+    <div class="flex justify-between items-center">
+        <div class="font-sans font-bold text-2xl flex items-center gap-2 text-blue-600">
+            <flux:icon.academic-cap />
+            My Courses
+        </div>
+        <a href="{{ route('courses.index') }}" wire:navigate class="group flex items-center justify-between gap-2 px-3 py-2 rounded-md text-blue-600 hover:bg-blue-600 hover:text-white transition duration-300">
+            <flux:icon.home variant="mini" class="text-blue-600 group-hover:text-white transition duration-300" />
+            All Courses
+        </a>
+    </div>
     {{-- Course Cards Grid --}}
     <div class="px-4 py-6">
         @if ($this->courses->isEmpty())
@@ -18,7 +27,7 @@
                 <p class="text-gray-600 text-sm mb-6 max-w-xs">
                     We couldn't find any courses matching your criteria. Try adjusting your filters.
                 </p>
-                <a href="{{ route('home') }}" wire:navigate>
+                <a href="{{ route('courses.index') }}" wire:navigate>
                     <flux:button variant="primary">
                         View All Courses
                     </flux:button>

@@ -7,6 +7,14 @@
     />
 </svg> --}}
 
-<div class="w-10 h-10 bg-linear-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-    <flux:icon.academic-cap class="w-6 h-6 text-white" />
+<div
+    class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
+    <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        <path d="M2 17L12 22L22 17" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        <path d="M2 12L12 17L22 12" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+    </svg>
 </div>

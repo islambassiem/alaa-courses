@@ -26,7 +26,7 @@ final readonly class EnrollmentAction
             'amount_total' => $session->amount_total ?? null,
         ]);
 
-        event(new \App\Events\UserEnrolled($course, $user));
+        event(new UserEnrolled($course, $user));
 
         return $enrollment;
     }

@@ -12,10 +12,7 @@
         <div class="px-4 py-4 ">
             <div class="flex items-center justify-between mb-4 ">
                 <a wire:navigate href="{{ route('home') }}" class="flex items-center gap-3 ">
-                    <div
-                        class="w-10 h-10 bg-linear-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                        <flux:icon.academic-cap class="w-6 h-6 text-white" />
-                    </div>
+                    <x-app-logo-icon />
                     <div>
                         <h1 class="text-xl font-bold text-gray-900">{{ config('app.name') }}</h1>
                         <p class="text-xs text-gray-600">Your Medical Education</p>
@@ -76,26 +73,6 @@
         </div>
     </div>
 
-    {{-- Stats Banner (Optional) --}}
-    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-6">
-        <div class="flex items-center justify-around text-center max-w-2xl mx-auto">
-            <div>
-                <div class="text-2xl font-bold">{{ $this->courseCount }}+</div>
-                <div class="text-xs opacity-90">Courses</div>
-            </div>
-            <div class="w-px h-8 bg-white/30"></div>
-            <div>
-                <div class="text-2xl font-bold">{{ $this->studentCount }}+</div>
-                <div class="text-xs opacity-90">Students</div>
-            </div>
-            <div class="w-px h-8 bg-white/30"></div>
-            <div>
-                <div class="text-2xl font-bold">{{ $this->averageRating }}★</div>
-                <div class="text-xs opacity-90">Average Rating</div>
-            </div>
-        </div>
-    </div>
-
     {{-- Course Cards Grid --}}
     <div class="px-4 py-6">
         @if ($this->courses->isEmpty())
@@ -114,116 +91,12 @@
                 </flux:button>
             </div>
         @else
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach ($this->courses as $course)
-                    <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 active:scale-98"
-                        x-data="{ bookmarked: false }">
-
-                        {{-- Course Image --}}
-                        <div
-                            class="relative aspect-[4/3] bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 overflow-hidden">
-                            @if ($course->image)
-                                <img src="{{ $course->image }}" alt="{{ $course->title }}"
-                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                    loading="lazy">
-                            @else
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <flux:icon.academic-cap class="w-20 h-20 text-white opacity-40" />
-                                </div>
-                            @endif
-
-                            {{-- Category Badge --}}
-                            <div class="absolute top-3 left-3">
-                                <span
-                                    class="px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full text-xs font-bold text-gray-900 shadow-lg">
-                                    {{ ucfirst($course->category->name) }}
-                                </span>
-                            </div>
-
-                            {{-- Bookmark Button --}}
-                            {{-- <button @click.prevent="bookmarked = !bookmarked"
-                                class="absolute top-3 right-3 w-9 h-9 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-90">
-                                <flux:icon.heart class="w-5 h-5 transition-colors"
-                                    :class="bookmarked ? 'text-red-500 fill-current' : 'text-gray-600'" />
-                            </button> --}}
-
-                            {{-- Duration Badge --}}
-                            @if ($course->duration)
-                                <div class="absolute bottom-3 right-3">
-                                    <span
-                                        class="px-2.5 py-1 bg-black/70 backdrop-blur-sm rounded-lg text-xs font-medium text-white flex items-center gap-1.5">
-                                        <flux:icon.clock class="w-3.5 h-3.5" />
-                                        {{ $course->duration }}
-                                    </span>
-                                </div>
-                            @endif
-                        </div>
-
-                        {{-- Course Info --}}
-                        <a href="{{ route('courses.show', $course) }}" wire:navigate
-                            class="block p-4 hover:bg-gray-50 transition-colors">
-                            <h3
-                                class="font-bold text-gray-900 text-base mb-2 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
-                                {{ $course->title }}
-                            </h3>
-
-                            <p class="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
-                                {{ $course->description }}
-                            </p>
-
-                            {{-- Course Meta --}}
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center gap-3 text-xs text-gray-500">
-                                    @if ($course->students_count)
-                                        <span class="flex items-center gap-1">
-                                            <flux:icon.users class="w-4 h-4" />
-                                            {{ number_format($course->students_count) }}
-                                        </span>
-                                    @endif
-
-                                    @if ($course->rating)
-                                        <span class="flex items-center gap-1">
-                                            <flux:icon.star class="w-4 h-4 text-yellow-400 fill-current" />
-                                            <span
-                                                class="font-semibold text-gray-700">{{ number_format($course->rating, 1) }}</span>
-                                        </span>
-                                    @endif
-                                </div>
-
-                                @if ($course->is_new)
-                                    <span
-                                        class="px-2 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-md border border-green-200">
-                                        NEW
-                                    </span>
-                                @endif
-                            </div>
-
-                            {{-- Price and CTA --}}
-                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                                <div>
-                                    @if ($course->price > 0)
-                                        <div class="flex items-baseline gap-2">
-                                            <span class="text-2xl font-bold text-gray-900">
-                                                ${{ number_format($course->price, 0) }}
-                                            </span>
-                                            @if ($course->original_price)
-                                                <span class="text-sm text-gray-400 line-through">
-                                                    ${{ number_format($course->original_price, 0) }}
-                                                </span>
-                                            @endif
-                                        </div>
-                                    @else
-                                        <span class="text-2xl font-bold text-green-600">Free</span>
-                                    @endif
-                                </div>
-
-                                <flux:button size="sm" variant="primary" icon:trailing="eye"
-                                    class="group-hover:scale-105 transition-transform shadow-lg">
-                                    Show
-                                </flux:button>
-                            </div>
-                        </a>
-                    </div>
+                    <livewire:course-card
+                        :key="$course->id"
+                        :course="$course"
+                    />
                 @endforeach
             </div>
 
