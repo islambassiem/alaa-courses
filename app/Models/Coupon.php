@@ -29,8 +29,8 @@ class Coupon extends Model
     protected function active(Builder $query): Builder
     {
         return $query->where(function (Builder $q) {
-            $q->whereNull('expires_at')
-                ->orWhere('expires_at', '>', now());
+            $q->whereNull('expiry_date')
+                ->orWhere('expiry_date', '>', now());
         });
     }
 
