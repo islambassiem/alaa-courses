@@ -79,7 +79,7 @@
         </flux:header>
 
         {{ $slot }}
-
+        <livewire:chat-widget />
         @fluxScripts
     </body>
 </html>

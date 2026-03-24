@@ -5,6 +5,7 @@
     </head>
     <body class="min-h-screen antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
         {{ $slot }}
+        <livewire:chat-widget />
         @fluxScripts
     </body>
 </html>
