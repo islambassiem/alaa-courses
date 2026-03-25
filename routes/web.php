@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,8 @@ require __DIR__.'/settings.php';
 Route::livewire('/courses', 'pages::welcome')->name('courses.index');
 Route::livewire('/courses/{course}', 'pages::show')->name('courses.show');
 Route::livewire('/', 'pages::home')->name('home');
+
+Route::middleware(['auth'])->name('admin.')->prefix('admin/')->group(function(){
+    Route::view('dashboard', 'admin.dashboard')->name('dashboard');
+    Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
+});

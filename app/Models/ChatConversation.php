@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ChatConversation extends Model
 {
@@ -57,18 +58,11 @@ class ChatConversation extends Model
     }
 
     /**
-     * @return Attribute<ChatMessage|null, never>
+     * @return HasOne<ChatMessage, $this>
      */
-    protected function lastMessage(): Attribute
+    public function lastMessage(): HasOne
     {
-        return Attribute::make(
-            get: $this->getLastMessage(...)
-        );
-    }
-
-    protected function getLastMessage(): ?ChatMessage
-    {
-        return $this->messages()->latest()->first();
+        return $this->hasOne(ChatMessage::class, 'conversation_id')->latestOfMany();
     }
 
     /**
