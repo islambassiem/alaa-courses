@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,5 @@ Route::livewire('/', 'pages::home')->name('home');
 Route::middleware(['auth'])->name('admin.')->prefix('admin/')->group(function () {
     Route::view('dashboard', 'admin.dashboard')->name('dashboard');
     Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::resource('categories', CategoryController::class);
 });

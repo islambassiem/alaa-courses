@@ -15,6 +15,10 @@
 
         <flux:sidebar.nav>
             <flux:sidebar.group :heading="__('Platform')" class="grid">
+                <flux:sidebar.item icon="tag" :href="route('admin.categories.index')"
+                    :current="request()->routeIs('admin.categories.index')" wire:navigate>
+                    {{ __('Categories') }}
+                </flux:sidebar.item>
                 <flux:sidebar.item icon="chat-bubble-left-right" :href="route('admin.chat.index')"
                     :current="request()->routeIs('admin.chat.index')" wire:navigate>
                     {{ __('Chats') }}
@@ -75,6 +79,7 @@
         {{ $slot }}
     </flux:main>
     @fluxScripts
+    {{-- <flux:toast /> --}}
 </body>
 
 </html>
