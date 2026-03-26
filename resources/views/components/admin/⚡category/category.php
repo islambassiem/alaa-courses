@@ -14,10 +14,18 @@ new class extends Component
     #[Validate(['name' => 'required'])]
     public $name = '';
 
+    public $search = '';
+
+    public $editingCategoryId = null;
+
     #[Computed()]
     public function categories()
     {
-        return Category::orderBy('created_at', 'desc')->paginate();
+        return Category::query()
+            ->withCount('courses')
+            ->where('name', 'like', "%{$this->search}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
     }
 
     public function addCategory()
@@ -57,6 +65,35 @@ new class extends Component
             type: 'success',
             title: 'Success',
             modal: "delete-category.$category->id",
+        );
+    }
+
+    public function loadCategory($id)
+    {
+        $category = Category::findOrFail($id);
+
+        $this->editingCategoryId = $id;
+        $this->name = $category->name;
+    }
+
+    public function editCategory()
+    {
+        $category = Category::findOrFail($this->editingCategoryId);
+
+        Gate::authorize('update', $category);
+
+        $this->validate();
+
+        $category->update([
+            'name' => $this->name,
+        ]);
+
+        $this->dispatch(
+            'category-updated',
+            message: 'Category updated successfully',
+            type: 'success',
+            title: 'Success',
+            modal: "edit-category.{$category->id}",
         );
     }
 };

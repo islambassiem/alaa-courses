@@ -3,7 +3,8 @@
         <flux:icon.tag />
         Categories
     </div>
-    <div class="flex justify-end mb-5">
+    <div class="flex justify-between mb-5 gap-6">
+        <flux:input icon="magnifying-glass" placeholder="Search..." class="max-w-md" wire:model.live.debounce.250ms='search' clearable/>
         <flux:modal.trigger name="add-category" class="ml-auto">
             <flux:button variant="primary">Add A Category</flux:button>
         </flux:modal.trigger>
@@ -14,6 +15,9 @@
                 <tr>
                     <th scope="col" class="px-6 py-3 font-medium">
                         Category name
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        No of courses
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
                         Created At
@@ -32,13 +36,16 @@
                         <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
                             {{ $category->name }}
                         </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                            {{ $category->courses_count }}
+                        </th>
                         <td class="px-6 py-4">
                             {{ $category->created_at->format('M d, Y') }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $category->updated_at->format('M d, Y') }}
                         </td>
-                        <td class="px-6 py-4 flex gap-6">
+                        <td class="px-6 py-4 flex gap-2">
                             <flux:modal.trigger name="delete-category.{{ $category->id }}">
                                 <flux:button variant="danger" icon="trash">Delete</flux:button>
                             </flux:modal.trigger>
@@ -68,8 +75,28 @@
                                 </div>
                             </flux:modal>
 
+                            <flux:modal.trigger name="edit-category.{{ $category->id }}"
+                                wire:click="loadCategory({{ $category->id }})">
+                                <flux:button variant="primary" icon="pencil">Edit</flux:button>
+                            </flux:modal.trigger>
 
-                            <flux:icon.pencil class="w-6 h-6 text-blue-500" />
+                            <flux:modal name="edit-category.{{ $category->id }}" class="md:w-96">
+                                <div class="space-y-6">
+                                    <div>
+                                        <flux:heading size="lg">Edit a new Category</flux:heading>
+                                        <flux:text class="mt-2">Edit a new course category.</flux:text>
+                                    </div>
+                                    <form wire:submit.prevent="editCategory" class="space-y-4">
+                                        <flux:input label="Name" placeholder="Category name" wire:model="name" />
+                                        <flux:error>{{ $errors->first('name') }}</flux:error>
+                                        <div class="flex">
+                                            <flux:spacer />
+                                            <flux:button type="submit" variant="primary">Save changes</flux:button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </flux:modal>
+
                         </td>
                     </tr>
                 @endforeach
@@ -123,13 +150,23 @@
             });
         });
         Livewire.on('cannot-delete-category', (data) => {
-            console.log(data.category_id);
             Flux.modal('delete-category.' + data.category_id).close()
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: data.message,
                 footer: "<a href=\"#\">Check the related courses</a>",
+            });
+        });
+        Livewire.on('category-updated', (data) => {
+            Flux.modal(data.modal).close()
+            Swal.fire({
+                icon: data.type,
+                title: data.title,
+                text: data.message,
+                timer: 2000,
+                showConfirmButton: false,
+                toast: true
             });
         });
     });
