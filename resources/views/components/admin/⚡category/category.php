@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Category;
-use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -18,9 +17,16 @@ new class extends Component
 
     public $editingCategoryId = null;
 
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
     #[Computed()]
     public function categories()
     {
+        auth()->user()->can('viewAny', Category::class);
+
         return Category::query()
             ->withCount('courses')
             ->where('name', 'like', "%{$this->search}%")
@@ -30,7 +36,7 @@ new class extends Component
 
     public function addCategory()
     {
-        Gate::authorize('create', Category::class);
+        auth()->user()->can('create', Category::class);
         $this->validate();
         Category::create([
             'name' => $this->name,
@@ -46,7 +52,7 @@ new class extends Component
 
     public function deleteCategory(Category $category)
     {
-        Gate::authorize('delete', Category::class);
+        auth()->user()->can('delete', Category::class);
         $category->loadCount('courses');
         if ($category->courses_count > 0) {
             $this->dispatch('cannot-delete-category',
@@ -80,7 +86,7 @@ new class extends Component
     {
         $category = Category::findOrFail($this->editingCategoryId);
 
-        Gate::authorize('update', $category);
+        auth()->user()->can('update', $category);
 
         $this->validate();
 
