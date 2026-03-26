@@ -17,7 +17,7 @@ Route::livewire('/courses', 'pages::welcome')->name('courses.index');
 Route::livewire('/courses/{course}', 'pages::show')->name('courses.show');
 Route::livewire('/', 'pages::home')->name('home');
 
-Route::middleware(['auth'])->name('admin.')->prefix('admin/')->group(function(){
+Route::middleware(['auth'])->name('admin.')->prefix('admin/')->group(function () {
     Route::view('dashboard', 'admin.dashboard')->name('dashboard');
     Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
 });
