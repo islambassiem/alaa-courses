@@ -20,6 +20,6 @@ Route::livewire('/', 'pages::home')->name('home');
 
 Route::middleware(['auth'])->name('admin.')->prefix('admin/')->group(function () {
     Route::view('dashboard', 'admin.dashboard')->name('dashboard');
-    Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::resource('categories', CategoryController::class);
+    Route::get('chat', ChatController::class)->name('chat.index');
+    Route::get('categories', CategoryController::class)->name('categories.index');
 });

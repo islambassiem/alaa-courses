@@ -7,7 +7,7 @@ use Illuminate\View\View;
 
 class ChatController extends Controller
 {
-    public function index(): View
+    public function __invoke(): View
     {
         return view('admin.chat.index');
     }
