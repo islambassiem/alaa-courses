@@ -47,7 +47,7 @@
                         </td>
                         <td class="px-6 py-4 flex gap-2">
                             <flux:modal.trigger name="delete-category.{{ $category->id }}">
-                                <flux:button variant="danger" icon="trash">Delete</flux:button>
+                                <flux:button variant="primary" color="red" icon="trash" size="xs" />
                             </flux:modal.trigger>
 
                             <flux:modal name="delete-category.{{ $category->id }}" class="min-w-[22rem]">
@@ -77,7 +77,7 @@
 
                             <flux:modal.trigger name="edit-category.{{ $category->id }}"
                                 wire:click="loadCategory({{ $category->id }})">
-                                <flux:button variant="primary" icon="pencil">Edit</flux:button>
+                                <flux:button variant="primary" icon="pencil" size="xs" />
                             </flux:modal.trigger>
 
                             <flux:modal name="edit-category.{{ $category->id }}" class="md:w-96">

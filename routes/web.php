@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
@@ -23,5 +24,6 @@ Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin/')->group(fu
     Route::view('dashboard', 'admin.dashboard')->name('dashboard');
     Route::get('users', UserController::class)->name('users.index');
     Route::get('categories', CategoryController::class)->name('categories.index');
+    Route::get('courses', CourseController::class)->name('courses.index');
     Route::get('chat', ChatController::class)->name('chat.index');
 });

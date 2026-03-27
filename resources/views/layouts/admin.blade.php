@@ -23,6 +23,10 @@
                     :current="request()->routeIs('admin.categories.index')" wire:navigate>
                     {{ __('Categories') }}
                 </flux:sidebar.item>
+                <flux:sidebar.item icon="academic-cap" :href="route('admin.courses.index')"
+                    :current="request()->routeIs('admin.courses.index')" wire:navigate>
+                    {{ __('Courses') }}
+                </flux:sidebar.item>
                 <flux:sidebar.item icon="chat-bubble-left-right" :href="route('admin.chat.index')"
                     :current="request()->routeIs('admin.chat.index')" wire:navigate>
                     {{ __('Chats') }}

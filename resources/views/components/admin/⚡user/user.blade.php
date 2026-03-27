@@ -46,7 +46,7 @@
                         <td class="px-6 py-4 flex gap-2">
                             <flux:modal.trigger name="edit-users.{{ $users->id }}"
                                 wire:click='loadUser({{ $users->id }})'>
-                                <flux:button variant="primary" icon="pencil">Edit</flux:button>
+                                <flux:button variant="primary" icon="pencil" size="xs" />
                             </flux:modal.trigger>
 
                             <flux:modal name="edit-users.{{ $users->id }}" class="md:w-96">
