@@ -1,80 +1,84 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
-        <div class="lg:col-span-2 space-y-8">
+        <div class="lg:col-span-2 space-y-10">
             <header class="space-y-4">
-                <div class="flex items-center gap-2">
-                    <flux:badge color="zinc" variant="outline">{{ $course->category?->name }}</flux:badge>
+                <div class="flex items-center gap-3">
+                    <flux:badge color="zinc" variant="outline" size="sm">{{ $course->category->name }}</flux:badge>
                     @if ($course->is_new)
-                        <flux:badge color="green" variant="solid">New</flux:badge>
+                        <flux:badge color="green" inset="top" variant="solid">NEW</flux:badge>
                     @endif
-                    <flux:badge color="orange" variant="subtle" icon="star">{{ $course->rating ?? 'No ratings' }}
-                    </flux:badge>
                 </div>
 
-                <flux:heading size="xl" class="text-3xl md:text-4xl font-bold">{{ $course->title }}</flux:heading>
+                <flux:heading size="xl" class="text-4xl font-extrabold tracking-tight">{{ $course->title }}
+                </flux:heading>
 
-                <div class="flex items-center gap-4 text-zinc-500">
-                    <div class="flex items-center gap-1">
-                        <flux:icon.user class="size-4" />
-                        <span class="text-sm">Instructor:
-                            <strong>{{ $course->instructor->name ?? 'Guest' }}</strong></span>
+                <div class="flex flex-wrap items-center gap-6 text-zinc-500">
+                    <div class="flex items-center gap-2">
+                        <flux:icon.user class="size-5 text-zinc-400" />
+                        <span class="text-sm font-medium">Instructor: <span
+                                class="text-zinc-900 dark:text-white">{{ $course->instructor->name ?? 'TBD' }}</span></span>
                     </div>
-                    <div class="flex items-center gap-1">
-                        <flux:icon.users class="size-4" />
-                        <span class="text-sm">{{ number_format($course->students_count) }} students</span>
+                    <div class="flex items-center gap-2">
+                        <flux:icon.star variant="solid" class="size-5 text-orange-400" />
+                        <span
+                            class="text-sm font-bold text-zinc-900 dark:text-white">{{ $course->rating ?? 'No ratings yet' }}</span>
                     </div>
                 </div>
             </header>
 
             <section>
-                <flux:heading size="xs" class="mb-4">Description</flux:heading>
-                <div class="prose prose-zinc dark:prose-invert max-w-none">
-                    {!! nl2br(e($course->description)) !!}
+                <flux:heading size="lg" class="mb-4">About this course</flux:heading>
+                <div class="prose prose-zinc dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-400">
+                    {{ $course->description }}
                 </div>
             </section>
 
             <flux:separator variant="faint" />
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <section>
-                    <flux:heading size="md" class="mb-3">What you'll learn</flux:heading>
-                    <ul class="space-y-2">
-                        @foreach (explode("\n", $course->objectives) as $objective)
-                            @if (trim($objective))
-                                <li class="flex gap-3 text-sm text-zinc-600 dark:text-zinc-400">
-                                    <flux:icon.check class="size-5 text-green-500 shrink-0" />
-                                    {{ $objective }}
-                                </li>
-                            @endif
-                        @endforeach
+            <div class="grid md:grid-cols-2 gap-12">
+                <section class="space-y-4">
+                    <flux:heading icon="check-circle" class="text-green-600">What you'll learn
+                    </flux:heading>
+                    <ul class="space-y-3">
+                        @forelse($course->objectives ?? [] as $objective)
+                            <li class="flex items-start gap-3 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                                <flux:icon.check class="size-4 mt-0.5 text-green-500 shrink-0" />
+                                {{ $objective }}
+                            </li>
+                        @empty
+                            <li class="text-sm text-zinc-400 italic">No specific objectives listed.</li>
+                        @endforelse
                     </ul>
                 </section>
 
-                <section>
-                    <flux:heading size="md" class="mb-3">Requirements</flux:heading>
-                    <ul class="space-y-2">
-                        @foreach ($course->requirements ?? [] as $requirement)
-                            <li class="flex gap-3 text-sm text-zinc-600 dark:text-zinc-400">
-                                <flux:icon.minus class="size-5 text-zinc-300 shrink-0" />
+                <section class="space-y-4">
+                    <flux:heading icon="information-circle">Requirements</flux:heading>
+                    <ul class="space-y-3">
+                        @forelse($course->requirements ?? [] as $requirement)
+                            <li class="flex items-start gap-3 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                                <flux:icon.minus class="size-4 mt-0.5 text-zinc-300 shrink-0" />
                                 {{ $requirement }}
                             </li>
-                        @endforeach
+                        @empty
+                            <li class="text-sm text-zinc-400 italic">No special requirements.</li>
+                        @endforelse
                     </ul>
                 </section>
             </div>
         </div>
 
-        <aside class="lg:col-span-1">
-            <div class="sticky top-6 space-y-6">
-                <flux:card class="p-0 overflow-hidden border-none shadow-xl">
-                    <div class="relative aspect-video bg-zinc-800 flex items-center justify-center">
+        <aside>
+            <div class="sticky top-8 space-y-6">
+                <flux:card class="p-0 overflow-hidden shadow-2xl border-none">
+                    <div class="relative aspect-video w-full bg-zinc-900 overflow-hidden group">
                         @if ($course->image)
-                            <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}"
-                                class="absolute inset-0 w-full h-full object-cover opacity-60">
+                            <img src="{{ asset('storage/' . $course->image) }}"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                alt="{{ $course->title }}">
                         @else
                             <div
-                                class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
+                                class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-600 to-violet-700">
                                 <svg class="w-20 h-20 text-white opacity-40" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
                                     <path d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -83,49 +87,44 @@
                                 </svg>
                             </div>
                         @endif
-                        <flux:button icon="play" variant="primary" size="xs"
-                            class="rounded-full h-16 w-16 shadow-2xl scale-110" />
+                        <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <flux:button icon="play" variant="primary"
+                                class="rounded-full shadow-lg scale-125" />
+                        </div>
                     </div>
 
                     <div class="p-6 space-y-6">
-                        <div class="flex items-baseline gap-3">
-                            <span
-                                class="text-3xl font-bold text-zinc-900 dark:text-white">${{ number_format($course->price, 2) }}</span>
-                            @if ($course->original_price > $course->price)
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-3">
                                 <span
-                                    class="text-lg text-zinc-400 line-through">${{ number_format($course->original_price, 2) }}</span>
-                                <span class="text-sm font-medium text-green-600">
-                                    {{ round((($course->original_price - $course->price) / $course->original_price) * 100) }}%
-                                    OFF
-                                </span>
-                            @endif
-                        </div>
-
-                        <div class="space-y-3">
-                            <flux:button variant="primary" class="w-full" size="xs">Enroll Now</flux:button>
-                            <flux:button variant="outline" class="w-full">Add to Wishlist</flux:button>
-                        </div>
-
-                        <div class="space-y-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-                            <div class="flex items-center justify-between text-sm">
-                                <span class="text-zinc-500">Duration</span>
-                                <span class="font-medium">{{ $course->duration }}</span>
+                                    class="text-4xl font-bold text-zinc-900 dark:text-white">${{ number_format($course->price, 2) }}</span>
+                                @if ($course->original_price > $course->price)
+                                    <span
+                                        class="text-lg text-zinc-400 line-through">${{ number_format($course->original_price, 2) }}</span>
+                                @endif
                             </div>
-                            <div class="flex items-center justify-between text-sm">
-                                <span class="text-zinc-500">Status</span>
-                                <flux:badge size="sm" :color="$course->status === 'active' ? 'green' : 'zinc'">
-                                    {{ ucfirst($course->status) }}
-                                </flux:badge>
+                        </div>
+
+                        <div class="pt-4 border-t border-zinc-100 dark:border-zinc-800 space-y-3">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-zinc-500">Duration</span>
+                                <span class="font-semibold">{{ $course->duration }}</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-zinc-500">Students</span>
+                                <span class="font-semibold">{{ number_format($course->students_count) }}</span>
                             </div>
                         </div>
                     </div>
                 </flux:card>
 
-                <p class="text-center text-xs text-zinc-500 px-4">
-                    Full lifetime access. 30-day money-back guarantee.
-                </p>
+                <div class="text-center">
+                    <flux:button :href="route('admin.courses.edit', $course)" variant="subtle" size="sm"
+                        icon="pencil-square">
+                        Edit this course
+                    </flux:button>
+                </div>
             </div>
         </aside>
-
     </div>
 </div>

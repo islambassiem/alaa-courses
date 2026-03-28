@@ -33,7 +33,7 @@ new class extends Component
 
     public $status;
 
-    public $objectives;
+    public $objectives = [];
 
     public $requirements = [];
 
@@ -51,7 +51,7 @@ new class extends Component
                 'objectives', 'instructor_id',
             ])
         );
-
+        $this->objectives = count($course->objectives ?? []) > 0 ? $course->objectives : [''];
         $this->requirements = $course->requirements ?? [''];
     }
 
@@ -72,10 +72,21 @@ new class extends Component
         $this->requirements[] = '';
     }
 
+    public function addObjective()
+    {
+        $this->objectives[] = '';
+    }
+
     public function removeRequirement($index)
     {
         unset($this->requirements[$index]);
         $this->requirements = array_values($this->requirements);
+    }
+
+    public function removeObjective($index)
+    {
+        unset($this->objectives[$index]);
+        $this->objectives = array_values($this->objectives);
     }
 
     public function update()

@@ -166,6 +166,7 @@ class Course extends Model
             'rating' => 'decimal:2',
             'is_new' => 'boolean',
             'requirements' => 'array',
+            'objectives' => 'array',
         ];
     }
 }

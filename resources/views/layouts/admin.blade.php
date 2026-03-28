@@ -15,6 +15,10 @@
 
         <flux:sidebar.nav>
             <flux:sidebar.group :heading="__('Platform')" class="grid">
+                <flux:sidebar.item icon="home" :href="route('admin.dashboard')"
+                    :current="request()->routeIs('admin.dashboard')" wire:navigate>
+                    {{ __('Dashboard') }}
+                </flux:sidebar.item>
                 <flux:sidebar.item icon="users" :href="route('admin.users.index')"
                     :current="request()->routeIs('admin.users.index')" wire:navigate>
                     {{ __('Users') }}

@@ -77,21 +77,42 @@
     <flux:separator />
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <flux:textarea wire:model="objectives" label="Learning Objectives" rows="4" />
+        <section class="space-y-3">
+            <div class="flex justify-between items-center">
+                <flux:label>Learning Objectives</flux:label>
+                <flux:button wire:click="addObjective" size="sm" variant="subtle" icon="plus" />
+            </div>
 
-        <div class="space-y-3">
+            <div class="space-y-2">
+                @foreach ($objectives as $index => $objective)
+                    <div class="flex gap-2">
+                        <flux:input wire:model="objectives.{{ $index }}"
+                            placeholder="e.g. Master Eloquent relationships" class="flex-1" />
+                        <flux:button wire:click="removeObjective({{ $index }})" variant="ghost" icon="trash"
+                            color="red" />
+                    </div>
+                @endforeach
+            </div>
+            <flux:error name="objectives" />
+        </section>
+
+        <section class="space-y-3">
             <div class="flex justify-between items-center">
                 <flux:label>Requirements</flux:label>
                 <flux:button wire:click="addRequirement" size="sm" variant="subtle" icon="plus" />
             </div>
-            @foreach ($requirements as $index => $requirement)
-                <div class="flex gap-2">
-                    <flux:input wire:model="requirements.{{ $index }}" class="flex-1" />
-                    <flux:button wire:click="removeRequirement({{ $index }})" variant="ghost" icon="trash"
-                        color="red" />
-                </div>
-            @endforeach
-        </div>
+
+            <div class="space-y-2">
+                @foreach ($requirements as $index => $requirement)
+                    <div class="flex gap-2">
+                        <flux:input wire:model="requirements.{{ $index }}" placeholder="e.g. Basic PHP knowledge"
+                            class="flex-1" />
+                        <flux:button wire:click="removeRequirement({{ $index }})" variant="ghost" icon="trash"
+                            color="red" />
+                    </div>
+                @endforeach
+            </div>
+        </section>
     </div>
 
     <div class="flex justify-end gap-3 pt-6 border-t border-zinc-100 dark:border-zinc-800">

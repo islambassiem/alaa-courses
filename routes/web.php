@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\CreateCourseController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EditCourseController;
 use App\Http\Controllers\Admin\ShowCourseController;
 use App\Http\Controllers\Admin\UserController;
@@ -24,7 +25,7 @@ Route::livewire('/courses/{course}', 'pages::show')->name('courses.show');
 Route::livewire('/', 'pages::home')->name('home');
 
 Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin/')->group(function () {
-    Route::view('dashboard', 'admin.dashboard')->name('dashboard');
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
     Route::get('users', UserController::class)->name('users.index');
     Route::get('categories', CategoryController::class)->name('categories.index');
     Route::get('courses', CourseController::class)->name('courses.index');
