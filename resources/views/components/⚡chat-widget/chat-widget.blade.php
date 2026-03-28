@@ -1,20 +1,18 @@
 <div class="fixed bottom-6 right-6 z-50" x-data="{ open: @entangle('isOpen') }">
     {{-- Chat Button (Closed State) --}}
-    <button @click="open = !open" x-show="!open" x-transition
-        class="w-16 h-16 bg-gradient-to-br from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 flex items-center justify-center group relative">
+    <button @click="$wire.toggleChat()" x-show="!open" x-transition
+        class="w-16 h-16 bg-linear-to-br from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 flex items-center justify-center group relative">
+
         <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
         </svg>
 
-        {{-- Unread Badge --}}
-        @if (Auth::check() && $conversation && $conversation->unread_count > 0)
-            <span
-                class="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center ring-4 ring-white">
-                {{ $conversation->unread_count }}
+        @if ($this->unreadMessagesCount > 0)
+            <span class="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full">
+                {{ $this->unreadMessagesCount }}
             </span>
         @endif
 
-        {{-- Pulse Animation --}}
         <span class="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-20"></span>
     </button>
 
@@ -167,7 +165,7 @@
                         @enderror
                     </div>
                     <button type="submit"
-                        class="w-12 h-12 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="w-12 h-12 bg-linear-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                         :disabled="!$wire.message">
                         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
@@ -175,9 +173,9 @@
                         </svg>
                     </button>
                 </form>
-                <p class="text-xs text-gray-500 mt-2 text-center">
+                {{-- <p class="text-xs text-gray-500 mt-2 text-center">
                     Press Enter to send • Shift + Enter for new line
-                </p>
+                </p> --}}
             </div>
         @endif
     </div>

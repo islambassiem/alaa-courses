@@ -4,12 +4,11 @@ use App\Enums\ConversationStatusEnum;
 use App\Enums\MessageSenderTypeEnum;
 use App\Models\ChatConversation;
 use App\Models\ChatMessage;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component
 {
-    public $conversations = [];
-
     public $selectedConversation = null;
 
     public $messages = [];
@@ -18,11 +17,51 @@ new class extends Component
 
     public $search = '';
 
+    public $showUnreadOnly = true;
+
     protected $listeners = ['conversationSelected' => 'selectConversation'];
 
     public function mount()
     {
         $this->loadConversations();
+    }
+
+    public function updatedSearch()
+    {
+        $this->loadConversations();
+    }
+
+    #[Computed()]
+    public function conversations()
+    {
+        if (! $this->showUnreadOnly) {
+            $query = ChatConversation::with(['user', 'lastMessage'])
+                ->withCount(['messages as unread_count' => function ($q) {
+                    $q->where('sender_type', MessageSenderTypeEnum::USER)
+                        ->where('is_read', false);
+                }])
+                ->orderBy('last_message_at', 'desc');
+
+            // Apply Unread Filter
+            if ($this->showUnreadOnly) {
+                $query->whereHas('messages', function ($q) {
+                    $q->where('sender_type', MessageSenderTypeEnum::USER)
+                        ->where('is_read', false);
+                });
+            }
+
+            // Apply Search Filter
+            if ($this->search) {
+                $query->whereHas('user', function ($q) {
+                    $q->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('email', 'like', '%'.$this->search.'%');
+                });
+            }
+
+            return $query->get();
+        }
+
+        return collect();
     }
 
     public function loadConversations()
@@ -33,6 +72,13 @@ new class extends Component
                     ->where('is_read', false);
             }])
             ->orderBy('last_message_at', 'desc');
+
+        if ($this->showUnreadOnly) {
+            $query->whereHas('messages', function ($q) {
+                $q->where('sender_type', MessageSenderTypeEnum::USER)
+                    ->where('is_read', false);
+            });
+        }
 
         if ($this->search) {
             $query->whereHas('user', function ($q) {

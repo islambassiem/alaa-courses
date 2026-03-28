@@ -29,7 +29,15 @@
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="chat-bubble-left-right" :href="route('admin.chat.index')"
                     :current="request()->routeIs('admin.chat.index')" wire:navigate>
-                    {{ __('Chats') }}
+                    @php
+                        $count = \App\Models\ChatMessage::where('is_read', 0)->count();
+                    @endphp
+                    <div class="flex justify-between">
+                        <span>{{ __('Chats') }}</span>
+                        @if ($count > 0)
+                            <span>{{ $count }}</span>
+                        @endif
+                    </div>
                 </flux:sidebar.item>
             </flux:sidebar.group>
         </flux:sidebar.nav>

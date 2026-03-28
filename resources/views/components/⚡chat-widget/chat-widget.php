@@ -1,7 +1,9 @@
 <?php
 
+use App\Enums\MessageSenderTypeEnum;
 use App\Models\ChatConversation;
 use App\Models\ChatMessage;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component
@@ -22,6 +24,22 @@ new class extends Component
     {
         $this->loadOrCreateConversation();
         $this->loadMessages();
+    }
+
+    #[Computed()]
+    public function unreadMessagesCount()
+    {
+        $conversation = ChatConversation::where('user_id', Auth::id())->first();
+
+        if (! $conversation) {
+            return 0;
+        }
+
+        return ChatMessage::query()
+            ->where('conversation_id', $conversation->id)
+            ->where('sender_type', MessageSenderTypeEnum::ADMIN)
+            ->where('is_read', 0)
+            ->count();
     }
 
     public function loadOrCreateConversation()
@@ -51,13 +69,19 @@ new class extends Component
             ->get()
             ->toArray();
 
-        // Mark messages as read
+        if ($this->isOpen) {
+            $this->markAsRead();
+        }
+
+        $this->dispatch('scroll-to-bottom');
+    }
+
+    public function markAsRead()
+    {
         ChatMessage::where('conversation_id', $this->conversation->id)
-            ->where('sender_type', 'admin')
+            ->where('sender_type', MessageSenderTypeEnum::ADMIN)
             ->where('is_read', false)
             ->update(['is_read' => true]);
-
-        $this->dispatch('scrollToBottom');
     }
 
     public function sendMessage()
@@ -77,7 +101,7 @@ new class extends Component
         ChatMessage::create([
             'conversation_id' => $this->conversation->id,
             'sender_id' => Auth::id(),
-            'sender_type' => 'user',
+            'sender_type' => MessageSenderTypeEnum::USER,
             'message' => $this->message,
             'is_read' => false,
         ]);
@@ -98,7 +122,9 @@ new class extends Component
         $this->isOpen = ! $this->isOpen;
 
         if ($this->isOpen) {
+            $this->markAsRead();
             $this->loadMessages();
+            $this->dispatch('scroll-to-bottom');
         }
     }
 };
