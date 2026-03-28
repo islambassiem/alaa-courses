@@ -7,7 +7,7 @@
         <flux:input icon="magnifying-glass" placeholder="Search..." class="max-w-md" wire:model.live.debounce.250ms='search'
             clearable />
         <div class="ml-auto">
-            <flux:link href="#">Add A Course</flux:link>
+            <flux:link href="{{ route('admin.courses.create') }}">Add A Course</flux:link>
         </div>
     </div>
     <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
@@ -50,7 +50,7 @@
                             {{ $course->students_count }}
                         </th>
                         <td class="px-6 py-4">
-                            {{ $course->rating }}
+                            {{ $course->rating ?? '--' }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $course->price }}
@@ -59,8 +59,11 @@
                             {{ $course->original_price ?? 'Free' }}
                         </td>
                         <td class="px-6 py-4 flex gap-2">
-                            <flux:link href="/{{ $course->id }}" variant="primary">
+                            <flux:link href="{{ route('admin.courses.show', $course) }}" variant="primary">
                                 Show
+                            </flux:link>
+                            <flux:link href="{{ route('admin.courses.edit', $course) }}" variant="primary">
+                                Edit
                             </flux:link>
                         </td>
                     </tr>

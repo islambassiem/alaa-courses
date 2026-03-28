@@ -24,7 +24,7 @@
                     {{ __('Categories') }}
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="academic-cap" :href="route('admin.courses.index')"
-                    :current="request()->routeIs('admin.courses.index')" wire:navigate>
+                    :current="request()->routeIs('admin.courses.*')" wire:navigate>
                     {{ __('Courses') }}
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="chat-bubble-left-right" :href="route('admin.chat.index')"
