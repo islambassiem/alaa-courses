@@ -38,11 +38,11 @@ class CourseFactory extends Factory
             'rating' => fake()->randomFloat(2, 4.0, 5.0),
             'is_new' => fake()->boolean(20),
             'status' => 'active',
-            'objectives' => json_encode([
+            'objectives' => [
                 'Understand core medical concepts',
                 'Apply theoretical knowledge in practice',
                 'Develop clinical decision-making skills',
-            ]),
+            ],
             'requirements' => [
                 'Basic medical knowledge',
                 'Active medical license (for some courses)',
