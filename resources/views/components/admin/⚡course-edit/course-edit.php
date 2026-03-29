@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
@@ -39,11 +40,20 @@ new class extends Component
 
     public $instructor_id;
 
+    public $coupon;
+
+    public $couponCode;
+
+    public $expiryDate;
+
+    public $discount;
+
     public function mount(Course $course)
     {
         $this->course = $course;
 
-        // Fill properties from model
+        $this->coupon = $course->getActiveCoupon();
+
         $this->fill(
             $course->only([
                 'title', 'description', 'category_id', 'price',
@@ -53,6 +63,10 @@ new class extends Component
         );
         $this->objectives = count($course->objectives ?? []) > 0 ? $course->objectives : [''];
         $this->requirements = $course->requirements ?? [''];
+
+        $this->couponCode = $this->coupon?->code;
+        $this->expiryDate = $this->coupon?->expiry_date?->toDateString();
+        $this->discount = $this->coupon?->discount;
     }
 
     #[Computed()]
@@ -104,8 +118,12 @@ new class extends Component
             'requirements' => 'nullable|array',
         ]);
 
+        $this->validate([
+            'expiryDate' => 'nullable|date|after:today|required_with:couponCode',
+            'discount' => 'nullable|int|required_with:couponCode',
+        ]);
+
         if ($this->image) {
-            // Delete old image if it exists
             if ($this->course->image) {
                 Storage::disk('public')->delete($this->course->image);
             }
@@ -117,6 +135,21 @@ new class extends Component
             'objectives' => $this->objectives,
             'requirements' => array_filter($this->requirements),
         ]);
+
+        if ($this->coupon) {
+            $this->coupon->update([
+                'code' => $this->couponCode,
+                'discount' => $this->discount,
+                'expiry_date' => $this->expiryDate,
+            ]);
+        } elseif ($this->couponCode !== null && $this->discount !== null && $this->expiryDate !== null) {
+            Coupon::create([
+                'course_id' => $this->course->id,
+                'code' => $this->couponCode,
+                'discount' => $this->discount,
+                'expiry_date' => $this->expiryDate,
+            ]);
+        }
 
         return redirect()->route('admin.courses.show', $this->course);
     }

@@ -99,7 +99,7 @@
         {{ $slot }}
     </flux:main>
     @fluxScripts
-    {{-- <flux:toast /> --}}
+    <script src="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/js/all.min.js" defer></script>
 </body>
 
 </html>

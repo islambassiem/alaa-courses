@@ -20,6 +20,20 @@
                         <flux:select.option value="{{ $instructor->id }}">{{ $instructor->name }}</flux:select.option>
                     @endforeach
                 </flux:select>
+                <div class="flex gap-1">
+                    <flux:input wire:model="couponCode" label="Coupon Code" />
+                    <flux:input type="number" wire:model="discount" label="Discount" wire:model='discount' />
+                </div>
+                <div class="grid">
+                    <label for="expiry_date">Date of Expiry</label>
+                    <input type="date" id="expiry_date" class="rounded-md border-2 py-1 px-2"
+                        wire:model='expiryDate'>
+                    <span class="text-sm text-red-500">
+                        @error('expiryDate')
+                            {{ $message }}
+                        @enderror
+                    </span>
+                </div>
             </div>
 
             <flux:input wire:model="duration" label="Duration" placeholder="e.g. 6 weeks or 12 hours" />
@@ -55,11 +69,24 @@
     <flux:separator />
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <section class="space-y-4">
-            <flux:heading size="lg">Learning Objectives</flux:heading>
-            <flux:textarea wire:model="objectives" placeholder="What will students learn?" rows="4" />
-        </section>
+        <section class="space-y-3">
+            <div class="flex justify-between items-center">
+                <flux:label>Learning Objectives</flux:label>
+                <flux:button wire:click="addObjective" size="sm" variant="subtle" icon="plus" />
+            </div>
 
+            <div class="space-y-2">
+                @foreach ($objectives as $index => $objective)
+                    <div class="flex gap-2">
+                        <flux:input wire:model="objectives.{{ $index }}"
+                            placeholder="e.g. Master Eloquent relationships" class="flex-1" />
+                        <flux:button wire:click="removeObjective({{ $index }})" variant="ghost" icon="trash"
+                            color="red" />
+                    </div>
+                @endforeach
+            </div>
+            <flux:error name="objectives" />
+        </section>
         <section class="space-y-4">
             <div class="flex items-center justify-between">
                 <flux:heading size="lg">Requirements</flux:heading>

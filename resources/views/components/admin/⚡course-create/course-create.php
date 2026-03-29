@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Course;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -30,16 +32,26 @@ new class extends Component
 
     public $status = 'draft';
 
-    public $objectives = '';
+    public $objectives = [''];
 
     public $instructor_id = '';
 
-    // Handling JSON requirements as an array
     public $requirements = [''];
+
+    public $couponCode;
+
+    public $expiryDate;
+
+    public $discount;
 
     public function addRequirement()
     {
         $this->requirements[] = '';
+    }
+
+    public function addObjective()
+    {
+        $this->objectives[] = '';
     }
 
     #[Computed()]
@@ -79,11 +91,22 @@ new class extends Component
             $validated['image'] = $this->image->store('courses', 'public');
         }
 
-        Course::create($validated + [
-            'is_new' => $this->is_new,
-            'objectives' => $this->objectives,
-            'requirements' => array_filter($this->requirements), // Clean empty values
-        ]);
+        DB::transaction(function () use ($validated) {
+            $course = Course::create($validated + [
+                'is_new' => $this->is_new,
+                'objectives' => $this->objectives,
+                'requirements' => array_filter($this->requirements), // Clean empty values
+            ]);
+
+            if ($this->couponCode !== null && $this->discount !== null && $this->expiryDate !== null) {
+                Coupon::create([
+                    'course_id' => $course->id,
+                    'code' => $this->couponCode,
+                    'discount' => $this->discount,
+                    'expiry_date' => $this->expiryDate,
+                ]);
+            }
+        });
 
         return redirect()->route('admin.courses.index');
     }

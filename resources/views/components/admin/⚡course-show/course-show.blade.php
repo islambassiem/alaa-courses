@@ -88,8 +88,7 @@
                             </div>
                         @endif
                         <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
-                            <flux:button icon="play" variant="primary"
-                                class="rounded-full shadow-lg scale-125" />
+                            <flux:button icon="play" variant="primary" class="rounded-full shadow-lg scale-125" />
                         </div>
                     </div>
 
@@ -114,6 +113,24 @@
                                 <span class="text-zinc-500">Students</span>
                                 <span class="font-semibold">{{ number_format($course->students_count) }}</span>
                             </div>
+                            @if ($coupon->code)
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-zinc-500">Coupon Code</span>
+                                    <span class="font-semibold">{{ $coupon->code }}</span>
+                                </div>
+                            @endif
+                            @if ($coupon->discount)
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-zinc-500">Coupon Discount</span>
+                                    <span class="font-semibold">{{ $coupon->discount }}%</span>
+                                </div>
+                            @endif
+                            @if ($coupon->expiry_date)
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-zinc-500">Expiry Date</span>
+                                    <span class="font-semibold">{{ $coupon->expiry_date->toDateString() }}</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </flux:card>

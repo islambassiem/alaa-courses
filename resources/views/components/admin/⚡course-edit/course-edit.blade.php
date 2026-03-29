@@ -22,6 +22,21 @@
                         <flux:select.option value="{{ $instructor->id }}">{{ $instructor->name }}</flux:select.option>
                     @endforeach
                 </flux:select>
+                <div class="flex gap-1">
+                    <flux:input wire:model="couponCode" label="Coupon Code" />
+                    <flux:input type="number" wire:model="discount" label="Discount" wire:model='discount' />
+                </div>
+                <div class="grid">
+                    <label for="expiry_date">Date of Expiry</label>
+                    <input type="date" id="expiry_date" class="rounded-md border-2 py-1 px-2"
+                        wire:model='expiryDate'>
+                    <span class="text-sm text-red-500">
+                        @error('expiryDate')
+                            {{ $message }}
+                        @enderror
+                    </span>
+                </div>
+
             </div>
         </div>
 
@@ -105,10 +120,10 @@
             <div class="space-y-2">
                 @foreach ($requirements as $index => $requirement)
                     <div class="flex gap-2">
-                        <flux:input wire:model="requirements.{{ $index }}" placeholder="e.g. Basic PHP knowledge"
-                            class="flex-1" />
-                        <flux:button wire:click="removeRequirement({{ $index }})" variant="ghost" icon="trash"
-                            color="red" />
+                        <flux:input wire:model="requirements.{{ $index }}"
+                            placeholder="e.g. Basic PHP knowledge" class="flex-1" />
+                        <flux:button wire:click="removeRequirement({{ $index }})" variant="ghost"
+                            icon="trash" color="red" />
                     </div>
                 @endforeach
             </div>
