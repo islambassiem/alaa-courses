@@ -34,7 +34,7 @@ new class extends Component
 
     public $objectives = [''];
 
-    public $instructor_id = '';
+    public $instructor_id;
 
     public $requirements = [''];
 
@@ -85,8 +85,9 @@ new class extends Component
             'status' => 'required|in:active,draft,archived',
             'instructor_id' => 'nullable|exists:users,id',
             'requirements' => 'nullable|array',
+            'objectives' => 'nullable|array',
         ]);
-
+        // dd($validated);
         if ($this->image) {
             $validated['image'] = $this->image->store('courses', 'public');
         }
@@ -94,7 +95,7 @@ new class extends Component
         DB::transaction(function () use ($validated) {
             $course = Course::create($validated + [
                 'is_new' => $this->is_new,
-                'objectives' => $this->objectives,
+                'objectives' => array_filter($this->objectives),
                 'requirements' => array_filter($this->requirements), // Clean empty values
             ]);
 

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('rating', 3, 2)->nullable();
             $table->boolean('is_new')->default(false);
             $table->string('status')->default('active'); // active, draft, archived
-            $table->text('objectives')->nullable();
+            $table->json('objectives')->nullable();
             $table->json('requirements')->nullable();
             $table->foreignId('instructor_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
