@@ -9,34 +9,34 @@
     <flux:sidebar sticky collapsible="mobile"
         class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
-            <x-app-logo :sidebar="true" href="{{ route('admin.dashboard') }}" wire:navigate />
+            <x-app-logo :sidebar="true" href="{{ route('admin.dashboard') }}" />
             <flux:sidebar.collapse class="lg:hidden" />
         </flux:sidebar.header>
 
         <flux:sidebar.nav>
             <flux:sidebar.group :heading="__('Platform')" class="grid">
                 <flux:sidebar.item icon="home" :href="route('admin.dashboard')"
-                    :current="request()->routeIs('admin.dashboard')" wire:navigate>
+                    :current="request()->routeIs('admin.dashboard')">
                     {{ __('Dashboard') }}
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="users" :href="route('admin.users.index')"
-                    :current="request()->routeIs('admin.users.index')" wire:navigate>
+                    :current="request()->routeIs('admin.users.index')">
                     {{ __('Users') }}
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="tv" :href="route('admin.instructors.index')"
-                    :current="request()->routeIs('admin.instructors.index')" wire:navigate>
+                    :current="request()->routeIs('admin.instructors.index')">
                     {{ __('Instructors') }}
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="tag" :href="route('admin.categories.index')"
-                    :current="request()->routeIs('admin.categories.index')" wire:navigate>
+                    :current="request()->routeIs('admin.categories.index')">
                     {{ __('Categories') }}
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="academic-cap" :href="route('admin.courses.index')"
-                    :current="request()->routeIs('admin.courses.*')" wire:navigate>
+                    :current="request()->routeIs('admin.courses.*')">
                     {{ __('Courses') }}
                 </flux:sidebar.item>
                 <flux:sidebar.item icon="chat-bubble-left-right" :href="route('admin.chat.index')"
-                    :current="request()->routeIs('admin.chat.index')" wire:navigate>
+                    :current="request()->routeIs('admin.chat.index')">
                     @php
                         $count = \App\Models\ChatMessage::where('is_read', 0)->count();
                     @endphp
@@ -81,7 +81,7 @@
                 <flux:menu.separator />
 
                 <flux:menu.radio.group>
-                    <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
+                    <flux:menu.item :href="route('profile.edit')" icon="cog">
                         {{ __('Settings') }}
                     </flux:menu.item>
                 </flux:menu.radio.group>
