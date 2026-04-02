@@ -17,7 +17,7 @@
                     <div class="flex items-center gap-2">
                         <flux:icon.user class="size-5 text-zinc-400" />
                         <span class="text-sm font-medium">Instructor: <span
-                                class="text-zinc-900 dark:text-white">{{ $course->instructor->name ?? 'TBD' }}</span></span>
+                                class="text-zinc-900 dark:text-white">{{ $course->instructor?->name ?? 'TBD' }}</span></span>
                     </div>
                     <div class="flex items-center gap-2">
                         <flux:icon.star variant="solid" class="size-5 text-orange-400" />

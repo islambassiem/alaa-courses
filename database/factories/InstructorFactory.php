@@ -19,6 +19,7 @@ class InstructorFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'avatar' => fake()->imageUrl(200, 200, 'people'),
             'bio' => fake()->paragraph(),
         ];
     }

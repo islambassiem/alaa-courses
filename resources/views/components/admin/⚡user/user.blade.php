@@ -62,7 +62,7 @@
                                         <flux:error>{{ $errors->first('name') }}</flux:error>
                                         <div class="flex">
                                             <flux:spacer />
-                                            <flux:button type="submit" variant="primary">Save changes</flux:button>
+                                            <flux:button type="submit" variant="primary"  wire:loading.attr='disabled'>Save changes</flux:button>
                                         </div>
                                     </form>
                                 </div>

@@ -137,8 +137,8 @@
                             class="flex items-center gap-4 mt-6 p-5 bg-linear-to-br from-blue-50 to-teal-50 rounded-xl border border-blue-100">
                             <div
                                 class="w-16 h-16 bg-linear-to-br from-blue-600 to-teal-600 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-white shadow-lg">
-                                @if ($course->instructor->avatar)
-                                    <img src="{{ $course->instructor->avatar }}" alt="{{ $course->instructor->name }}"
+                                @if ($course->instructor?->avatar)
+                                    <img src="{{ $course->instructor?->avatar }}" alt="{{ $course->instructor->name }}"
                                         class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center">
@@ -151,8 +151,8 @@
                                 <p class="text-xs text-gray-600 font-medium uppercase tracking-wider mb-1">Course
                                     Instructor</p>
                                 <p class="font-bold text-gray-900 text-lg truncate">{{ $course->instructor->name }}</p>
-                                @if ($course->instructor->credentials)
-                                    <p class="text-sm text-gray-600 truncate">{{ $course->instructor->credentials }}
+                                @if ($course->instructor->bio)
+                                    <p class="text-sm text-gray-600 truncate">{{ $course->instructor->bio }}
                                     </p>
                                 @endif
                             </div>
@@ -203,7 +203,7 @@
                                         What you'll learn
                                     </h2>
                                     <div class="grid sm:grid-cols-2 gap-4">
-                                        @foreach (json_decode($course->objectives) as $objective)
+                                        @foreach ($course->objectives as $objective)
                                             <div class="flex gap-3 group">
                                                 <div
                                                     class="flex-shrink-0 w-6 h-6 bg-linear-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center mt-0.5 group-hover:scale-110 transition-transform">

@@ -69,7 +69,7 @@
                                         </flux:modal.close>
 
                                         <flux:button type="submit" variant="danger"
-                                            wire:click="deleteCategory({{ $category }})">Delete
+                                            wire:click="deleteCategory({{ $category }})"  wire:loading.attr='disabled'>Delete
                                             category</flux:button>
                                     </div>
                                 </div>

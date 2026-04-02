@@ -73,7 +73,9 @@
                                         </flux:modal.close>
 
                                         <flux:button type="submit" variant="danger"
-                                            wire:click="deleteInstructor({{ $instructor }})">Delete
+                                            wire:click="deleteInstructor({{ $instructor }})"
+                                            wire:loading.attr='disabled'
+                                        >Delete
                                             instructor</flux:button>
                                     </div>
                                 </div>
@@ -96,7 +98,7 @@
                                         <flux:textarea label="Bio" placeholder="Instructor Bio ..." wire:model="bio" />
                                         <div class="flex">
                                             <flux:spacer />
-                                            <flux:button type="submit" variant="primary">Save changes</flux:button>
+                                            <flux:button type="submit" variant="primary"  wire:loading.attr='disabled'>Save changes</flux:button>
                                         </div>
                                     </form>
                                 </div>
@@ -125,7 +127,7 @@
                 <flux:textarea label="Bio" placeholder="Instructor Bio ..." wire:model="bio" />
                 <div class="flex">
                     <flux:spacer />
-                    <flux:button type="submit" variant="primary">Save changes</flux:button>
+                    <flux:button type="submit" variant="primary"  wire:loading.attr='disabled'>Save changes</flux:button>
                 </div>
             </form>
         </div>

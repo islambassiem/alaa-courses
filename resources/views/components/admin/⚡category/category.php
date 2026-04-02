@@ -10,7 +10,7 @@ new class extends Component
 {
     use WithPagination;
 
-    #[Validate(['name' => 'required'])]
+    #[Validate(['name' => 'required|unique:categories,name,'.'$editingCategoryId'])]
     public $name = '';
 
     public $search = '';
