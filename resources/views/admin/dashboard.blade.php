@@ -5,7 +5,9 @@
                 <flux:heading size="xl" level="1">Academy Overview</flux:heading>
                 <flux:subheading>Metrics and activity across your platform</flux:subheading>
             </div>
-            <flux:button variant="primary" icon="plus" href="{{ route('admin.courses.create') }}">New Course</flux:button>
+            <flux:link href="{{ route('admin.courses.create') }}">
+                <flux:button variant="primary" icon="plus" >New Course</flux:button>
+            </flux:link>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -82,11 +82,11 @@ class Course extends Model
     }
 
     /**
-     * @return BelongsTo<User, $this>
+     * @return BelongsTo<Instructor, $this>
      */
     public function instructor(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'instructor_id');
+        return $this->belongsTo(Instructor::class);
     }
 
     public function hasReviewBy(User $user): bool

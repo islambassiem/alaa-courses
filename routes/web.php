@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\CreateCourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EditCourseController;
+use App\Http\Controllers\Admin\InstructorController;
 use App\Http\Controllers\Admin\ShowCourseController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CategoryController;
@@ -27,6 +28,7 @@ Route::livewire('/', 'pages::home')->name('home');
 Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin/')->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
     Route::get('users', UserController::class)->name('users.index');
+    Route::get('instructors', InstructorController::class)->name('instructors.index');
     Route::get('categories', CategoryController::class)->name('categories.index');
     Route::get('courses', CourseController::class)->name('courses.index');
     Route::get('courses/create', CreateCourseController::class)->name('courses.create');

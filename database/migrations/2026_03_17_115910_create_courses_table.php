@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('status')->default('active'); // active, draft, archived
             $table->json('objectives')->nullable();
             $table->json('requirements')->nullable();
-            $table->foreignId('instructor_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('instructor_id')->nullable()->constrained('instructors');
             $table->timestamps();
             $table->softDeletes();
         });

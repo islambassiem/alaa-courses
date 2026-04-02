@@ -7,7 +7,9 @@
         <flux:input icon="magnifying-glass" placeholder="Search..." class="max-w-md" wire:model.live.debounce.250ms='search'
             clearable />
         <div class="ml-auto">
-            <flux:link href="{{ route('admin.courses.create') }}">Add A Course</flux:link>
+            <flux:link href="{{ route('admin.courses.create') }}">
+                <flux:button variant="primary" icon="plus">Add A Course</flux:button>
+            </flux:link>
         </div>
     </div>
     <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
@@ -60,10 +62,10 @@
                         </td>
                         <td class="px-6 py-4 flex gap-2">
                             <flux:link href="{{ route('admin.courses.show', $course) }}" variant="primary">
-                                Show
+                                <flux:button variant="primary" color="blue" icon="eye" size="xs" />
                             </flux:link>
                             <flux:link href="{{ route('admin.courses.edit', $course) }}" variant="primary">
-                                Edit
+                                <flux:button variant="primary" color="indigo" icon="pencil" size="xs" />
                             </flux:link>
                         </td>
                     </tr>

@@ -22,6 +22,11 @@ new class extends Component
         $this->resetPage();
     }
 
+    public function resetInputs()
+    {
+        $this->name = '';
+    }
+
     #[Computed()]
     public function categories()
     {
@@ -93,7 +98,7 @@ new class extends Component
         $category->update([
             'name' => $this->name,
         ]);
-
+        $this->reset('editingCategoryId', 'name');
         $this->dispatch(
             'category-updated',
             message: 'Category updated successfully',

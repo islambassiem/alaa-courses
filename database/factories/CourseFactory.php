@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Instructor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CourseFactory extends Factory
@@ -47,6 +48,7 @@ class CourseFactory extends Factory
                 'Basic medical knowledge',
                 'Active medical license (for some courses)',
             ],
+            'instructor_id' => fake()->randomElement(Instructor::pluck('id')->toArray()),
         ];
     }
 }

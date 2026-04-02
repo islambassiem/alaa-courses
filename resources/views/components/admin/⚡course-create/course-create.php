@@ -3,7 +3,7 @@
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Course;
-use App\Models\User;
+use App\Models\Instructor;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -34,7 +34,7 @@ new class extends Component
 
     public $objectives = [''];
 
-    public $instructor_id;
+    public $instructor_id = '';
 
     public $requirements = [''];
 
@@ -63,7 +63,7 @@ new class extends Component
     #[Computed()]
     public function instructors()
     {
-        return User::role('admin')->get();
+        return Instructor::get(['id', 'name']);
     }
 
     public function removeRequirement($index)
@@ -83,7 +83,7 @@ new class extends Component
             'original_price' => 'nullable|numeric|gt:price',
             'duration' => 'nullable|string',
             'status' => 'required|in:active,draft,archived',
-            'instructor_id' => 'nullable|exists:users,id',
+            'instructor_id' => 'required|exists:instructors,id',
             'requirements' => 'nullable|array',
             'objectives' => 'nullable|array',
         ]);
@@ -109,6 +109,6 @@ new class extends Component
             }
         });
 
-        return redirect()->route('admin.courses.index');
+        $this->redirect(route('admin.courses.index'));
     }
 };

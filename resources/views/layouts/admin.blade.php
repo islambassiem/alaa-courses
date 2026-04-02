@@ -23,6 +23,10 @@
                     :current="request()->routeIs('admin.users.index')" wire:navigate>
                     {{ __('Users') }}
                 </flux:sidebar.item>
+                <flux:sidebar.item icon="tv" :href="route('admin.instructors.index')"
+                    :current="request()->routeIs('admin.instructors.index')" wire:navigate>
+                    {{ __('Instructors') }}
+                </flux:sidebar.item>
                 <flux:sidebar.item icon="tag" :href="route('admin.categories.index')"
                     :current="request()->routeIs('admin.categories.index')" wire:navigate>
                     {{ __('Categories') }}
